@@ -43,23 +43,21 @@ class PushbulletNotifier:
     """
 
     def test_notify(self, apiKey=None):
-        return self._sendPushbullet("This is a test notification from SickBeard", 'Test', None, apiKey )
+        return self._sendPushbullet("This is a test notification from SickBeard", 'Test', None )
 
-    def _sendPushbullet(self, msg, title, device=None, apiKey=None):
+    def _sendPushbullet(self, msg, title, device=None):
         """
         Sends a pushbullet notification with API key and to indicate device (ToDo)
 
         msg: The message to send 
         title: The title of the message
-        apiKey: The pushbullet API key
         device: Device ID to send notification (ToDo)
 
 
         returns: True if the message succeeded, False otherwise
         """
 
-        if not apiKey:
-            apiKey = sickbeard.PUSHBULLET_APIKEY
+        apiKey = sickbeard.PUSHBULLET_APIKEY
 
         # build up the URL and parameters
         msg = msg.strip()
@@ -92,22 +90,20 @@ class PushbulletNotifier:
         if sickbeard.PUSHBULLET_NOTIFY_ONDOWNLOAD:
             self._notifyPushbullet(title, ep_name)
 
-    def _notifyPushbullet(self, title, message, device=None, apiKey=None ):
+    def _notifyPushbullet(self, title, message, device=None):
         """
         Sends a pushbullet notification 
 
         title: The title of the notification to send
         message: The message string to send
         device: Device to send. None to send all devices
-        apiKey: The apiKey to send the notification to
         """
 
         if not sickbeard.USE_PUSHBULLET:
             logger.log("Notification for Pushbullet not enabled, skipping this notification", logger.DEBUG)
             return False
 
-        if not apiKey:
-            apiKey = sickbeard.PUSHBULLET_APIKEY
+        apiKey = sickbeard.PUSHBULLET_APIKEY
 
         logger.log("Sending notification for " + message, logger.DEBUG)
 
